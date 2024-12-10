@@ -17,9 +17,9 @@
 4. Search for `ros2` and select the **ROS2 Workspace BrunoB81HK** option.
 5. Once the setup is complete, validate the ROS2 installation by running the following command in the terminal:
 
-   ``bash
+   ```bash
    ls /opt/ros
-   ``
+   ```
 
    You should see the available ROS2 distributions, including `humble`.
 
@@ -29,31 +29,31 @@
 
 1. **Install the `rosbridge_server` Package**:
 
-   ``bash
+   ```bash
    sudo apt update && sudo apt install -y ros-humble-rosbridge-server
-   ``
+   ```
 
 2. **Verify the Installation**:
 
-   ``bash
+   ```bash
    ros2 pkg list | grep rosbridge_server
-   ``
+   ```
 
    Ensure `rosbridge_server` is listed in the output.
 
 3. **Launch the WebSocket Server**:
 
-   ``bash
+   ```bash
    ros2 launch rosbridge_server rosbridge_websocket_launch.xml
-   ``
+   ```
 
    This starts the WebSocket server on the default port (9090), allowing communication between ROS2 and external systems.
 
 4. **Optional - Run Manually Without Launch File**:
 
-   ``bash
+   ```bash
    ros2 run rosbridge_server rosbridge_websocket
-   ``
+   ```
 
 ---
 
@@ -63,28 +63,28 @@
 
    Clone and build the ROSbot repository:
 
-   ``bash
+   ```bash
    git clone https://github.com/husarion/rosbot_ros.git
    cd rosbot_ros
    colcon build
-   ``
+   ```
 
 2. **Run the ROSbot Simulation**:
 
    Launch the simulation in Gazebo:
 
-   ``bash
+   ```bash
    source install/setup.bash
    ros2 launch rosbot_gazebo simulation.launch.py
-   ``
+   ```
 
 3. **Simulate Multiple Robots**:
 
    To launch multiple robots in the simulation, use the following command:
 
-   ``bash
+   ```bash
    ros2 launch rosbot_gazebo simulation.launch.py robots:="robot1={x: 0.0, y: 0.0, yaw: 0.0}; robot2={x: 2.0, y: 0.0, yaw: 1.57};"
-   ``
+   ```
 
 ---
 
@@ -94,9 +94,9 @@
 
    Check that ROS2 commands work by listing installed packages:
 
-   ``bash
+   ```bash
    ros2 pkg list
-   ``
+   ```
 
 2. **Test the `rosbridge_websocket` Server**:
 
@@ -106,9 +106,9 @@
 
    Use Rviz to visualize the ROSbot simulation:
    - Launch Rviz:
-     ``bash
+     ```bash
      rviz
-     ``
+     ```
    - Add the **RobotModel** display to visualize the ROSbot.
    - Set the **Fixed Frame** to `world`.
 
