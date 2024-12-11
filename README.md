@@ -4,6 +4,7 @@
 
 - **Docker** is installed and running on your system.
 - **Visual Studio Code (VSCode)** is installed, along with the Remote Development extension.
+- Internet access to download necessary packages.
 
 ---
 
@@ -59,14 +60,21 @@
 
 ### Step 3: Install and Run ROSbot Simulation
 
-1. **Set Up the ROSbot Gazebo Simulation**:
+1. **Set Up the ROSbot Simulation Workspace**:
 
-   Clone and build the ROSbot repository:
+   Clone the `rosbot_ros` repository and set up the simulation environment:
 
    ```bash
-   git clone https://github.com/husarion/rosbot_ros.git
-   cd rosbot_ros
-   colcon build
+   mkdir -p ros2_ws
+   cd ros2_ws
+   git clone https://github.com/husarion/rosbot_ros src/rosbot_ros
+   export HUSARION_ROS_BUILD_TYPE=simulation
+   vcs import src < src/rosbot_ros/rosbot/rosbot_simulation.repos
+   cp -r src/ros2_controllers/imu_sensor_broadcaster src && rm -rf src/ros2_controllers
+   sudo rosdep init
+   rosdep update --rosdistro $ROS_DISTRO
+   rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y
+   colcon build --symlink-install --packages-up-to rosbot --cmake-args -DCMAKE_BUILD_TYPE=Release
    ```
 
 2. **Run the ROSbot Simulation**:
@@ -88,36 +96,6 @@
 
 ---
 
-## Testing and Verification
+## Troubleshooting and Additional Resources
 
-1. **Verify ROS2 is Running in the Container**:
-
-   Check that ROS2 commands work by listing installed packages:
-
-   ```bash
-   ros2 pkg list
-   ```
-
-2. **Test the `rosbridge_websocket` Server**:
-
-   Confirm that the WebSocket server is running by connecting to port 9090 with a WebSocket client.
-
-3. **Check ROSbot Simulation**:
-
-   Use Rviz to visualize the ROSbot simulation:
-   - Launch Rviz:
-     ```bash
-     rviz
-     ```
-   - Add the **RobotModel** display to visualize the ROSbot.
-   - Set the **Fixed Frame** to `world`.
-
----
-
-## Troubleshooting
-
-1. **Docker Issues**: Ensure Docker is installed and running properly on your system. Test by running `docker --version`.
-2. **Network Configuration**: If you're connecting to the WebSocket server from an external machine, ensure the port (9090) is open in your firewall.
-3. **Simulation Performance**: For large-scale simulations with multiple robots, consider increasing the resources allocated to your Docker container.
-
-By following these steps, you will have a fully operational ROS2 Humble setup in Docker with `rosbridge_websocket` and ROSbot simulation running in Gazebo.
+For detailed troubleshooting steps and more information, refer to the [official ROSbot documentation](https://github.com/husarion/rosbot_ros).
